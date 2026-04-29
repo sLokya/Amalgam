@@ -1,6 +1,7 @@
 param(
     [ValidateSet("codex", "all")]
     [string]$Target = "codex",
+    [string]$CodexHome,
     [switch]$SkipCatalog,
     [switch]$WhatIf
 )
@@ -8,14 +9,33 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-$Root = Split-Path -Parent $MyInvocation.MyCommand.Path
+$Root = if ($PSScriptRoot) { $PSScriptRoot } else { Split-Path -Parent $MyInvocation.MyCommand.Path }
 $SkillName = Split-Path -Leaf $Root
-$CodexSkillsDir = Join-Path $env:USERPROFILE ".codex\skills"
-$CodexDest = Join-Path $CodexSkillsDir $SkillName
 
 function Write-Step {
     param([string]$Message)
     Write-Host "[agent-context-router] $Message"
+}
+
+function Get-CodexHome {
+    if (-not [string]::IsNullOrWhiteSpace($CodexHome)) {
+        return $CodexHome
+    }
+
+    if (-not [string]::IsNullOrWhiteSpace($env:CODEX_HOME)) {
+        return $env:CODEX_HOME
+    }
+
+    $homeDir = [Environment]::GetFolderPath("UserProfile")
+    if ([string]::IsNullOrWhiteSpace($homeDir)) {
+        $homeDir = $HOME
+    }
+
+    if ([string]::IsNullOrWhiteSpace($homeDir)) {
+        throw "Cannot determine user home. Pass -CodexHome explicitly."
+    }
+
+    return (Join-Path $homeDir ".codex")
 }
 
 function Rebuild-Catalog {
@@ -36,6 +56,10 @@ function Rebuild-Catalog {
 }
 
 function Install-Codex {
+    $ResolvedCodexHome = Get-CodexHome
+    $CodexSkillsDir = Join-Path $ResolvedCodexHome "skills"
+    $CodexDest = Join-Path $CodexSkillsDir $SkillName
+
     Write-Step "Installing to Codex skills: $CodexDest"
 
     if ($WhatIf) {

@@ -80,4 +80,4 @@ From the `agent-context-router/` root, install or refresh the Codex copy:
 .\install.ps1 -Target codex
 ```
 
-The script rebuilds catalogs, then replaces `%USERPROFILE%\.codex\skills\agent-context-router` with the current packaged directory. It is the intended maintenance entrypoint for future app targets.
+The script rebuilds catalogs, then replaces `<codex-home>/skills/agent-context-router` with the current packaged directory. `<codex-home>` is resolved from `-CodexHome`, then `CODEX_HOME`, then the current user's default `.codex` directory. It is the intended maintenance entrypoint for future app targets.

@@ -158,7 +158,7 @@ system/developer/user > project instructions > agent-context-router > workflows 
 在源目录执行：
 
 ```powershell
-cd D:\Documents\WORKSPACE\agent-context-router
+cd <agent-context-router>
 .\install.ps1 -Target codex
 ```
 
@@ -169,7 +169,19 @@ cd D:\Documents\WORKSPACE\agent-context-router
 3. 覆盖安装到：
 
 ```text
-C:\Users\<你>\.codex\skills\agent-context-router
+<codex-home>\skills\agent-context-router
+```
+
+`<codex-home>` 的解析顺序：
+
+1. 命令参数 `-CodexHome <path>`
+2. 环境变量 `$env:CODEX_HOME`
+3. 当前用户 home 下的 `.codex` 目录
+
+例如：
+
+```powershell
+.\install.ps1 -Target codex -CodexHome <codex-home>
 ```
 
 安装后需要重启 Codex App 或开启新对话，技能列表和描述才会完全刷新。
