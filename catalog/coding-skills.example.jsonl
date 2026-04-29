@@ -1,0 +1,4 @@
+{"name":"grill-with-docs","description":"Clarify requirements and project language before engineering work.","path":"sources/mattpocock-skills/skills/engineering/grill-with-docs/SKILL.md","tags":["clarify","planning","engineering"]}
+{"name":"tdd","description":"Test-driven development with red-green-refactor loop.","path":"sources/mattpocock-skills/skills/engineering/tdd/SKILL.md","tags":["implementation","testing","bugfix"]}
+{"name":"diagnose","description":"Disciplined diagnosis loop for bugs and performance regressions.","path":"sources/mattpocock-skills/skills/engineering/diagnose/SKILL.md","tags":["debug","investigation","engineering"]}
+{"name":"zoom-out","description":"Explain unfamiliar code in broader system context.","path":"sources/mattpocock-skills/skills/engineering/zoom-out/SKILL.md","tags":["review","architecture","understanding"]}

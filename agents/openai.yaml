@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agent Context Router"
+  short_description: "Selects relevant experts and engineering rules for each task."
+  default_prompt: "Use agent-context-router to choose the right expert context and engineering workflow for this task."
