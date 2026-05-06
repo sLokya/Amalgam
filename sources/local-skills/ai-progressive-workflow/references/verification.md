@@ -3,6 +3,9 @@
 Completion requires relevant checks:
 
 - Requirement status matches implementation status.
+- Requirement completion definition is satisfied as written in `requirements.md`.
+- Evidence is attached or listed against the requirement.
+- Known gaps, placeholders, partial implementations, and unverified paths are recorded in `requirements.md`.
 - Work package and slice status are updated.
 - Main business flow is verified.
 - Failure/empty/permission/loading states are considered when relevant.
@@ -12,6 +15,14 @@ Completion requires relevant checks:
 
 Build passing is not enough when business flow is unverified.
 
+For fidelity or recreation work, completion additionally requires:
+
+- Reference source is recorded.
+- Required surfaces and regions are checked.
+- Allowed deviations are documented before acceptance.
+- Screenshots, visual diffs, checklists, or equivalent evidence are recorded.
+- Any missing source assets or unverifiable regions are listed as gaps.
+
 Self-correction triggers:
 
 - User says the result is off.
@@ -19,11 +30,13 @@ Self-correction triggers:
 - Verification fails.
 - Scope starts expanding.
 - Requirements or memory cannot explain the current work.
+- The final result is judged against a reference that was not captured in requirements.
+- The implementation is "functionally present" but not aligned with the requirement completion definition.
 
 Process:
 
 1. Stop adding code.
-2. Classify cause: requirement gap, bad slice, scope creep, wrong layer, missing contract, weak verification, or implementation bug.
+2. Classify cause: requirement gap, missing completion definition, missing fidelity contract, bad slice, scope creep, wrong layer, missing contract, weak verification, or implementation bug.
 3. Update requirements/log/rules first.
-4. Resume with a smaller slice.
+4. Resume with a smaller requirement-backed slice.
 5. Add a prevention rule to error analysis or change log.
