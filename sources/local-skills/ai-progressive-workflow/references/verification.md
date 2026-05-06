@@ -12,6 +12,7 @@ Completion requires relevant checks:
 - Cross-surface contract is checked for frontend/backend/miniprogram/API changes.
 - Regression points listed in the scope contract are checked or explicitly marked unverified.
 - Implementation log and error analysis are updated.
+- Final chat does not introduce new material gaps or completion claims that are absent from `requirements.md`.
 
 Build passing is not enough when business flow is unverified.
 

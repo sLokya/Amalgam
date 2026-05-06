@@ -21,6 +21,14 @@ Use this workflow when correctness depends on requirements, traceability, contro
 10. Update the requirements document with status, evidence, gaps, partial implementations, placeholders, and unverified risks before reporting completion.
 11. Sync memory before reporting completion.
 
+## Write Timing Gate
+
+- Before implementation: write or update completion definitions, fidelity contracts, gap register entries, work packages, slice plan, and change scope in `requirements.md`.
+- Before each slice starts: ensure the active REQ/WP/SLICE, acceptance check, rollback label, evidence target, and gap log target already exist in `requirements.md`.
+- During a slice: when a placeholder, partial implementation, missing reference, scope cascade, or verification risk is discovered, write the gap before continuing unrelated work.
+- After verification: update requirement status, evidence, gaps, slice status, and unverified risks before final chat.
+- Final response may summarize only what has already been written to `requirements.md`; it must not be the first place where material gaps appear.
+
 ## Load References On Demand
 
 - Requirements and memory layout: [references/memory.md](references/memory.md)
