@@ -16,10 +16,18 @@ Completion requires relevant checks:
 
 Build passing is not enough when business flow is unverified.
 
+## Startup Verification
+
+- Startup scripts should make stale output unlikely: clear build/tool caches that are safe to regenerate, then compile/build before launching.
+- Do not clear user data, uploaded assets, databases, or secrets unless the requirement explicitly asks for a reset.
+- Record script behavior in requirements: what is cleaned, what is preserved, what commands run, ports, URLs, and default credentials.
+- If the UI still differs after a rebuild, treat it as an implementation/fidelity gap, not a cache issue.
+
 For fidelity or recreation work, completion additionally requires:
 
 - Reference source is recorded.
 - Required surfaces and regions are checked.
+- Every visible control is connected to real state, API, navigation, persistence, or an explicit documented gap. Visual parity must not turn functional controls into static demos.
 - Allowed deviations are documented before acceptance.
 - Screenshots, visual diffs, checklists, or equivalent evidence are recorded.
 - Any missing source assets or unverifiable regions are listed as gaps.

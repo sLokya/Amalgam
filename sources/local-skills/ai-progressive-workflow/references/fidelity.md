@@ -27,8 +27,10 @@ Template:
 
 - Identify the reference source at the start. If it is missing, create a discovery slice or ask for it.
 - Break UI work into visible regions before coding: header, navigation, main content, cards/tables, forms, empty states, dialogs, loading/error states, and responsive breakpoints.
+- Extract a short style contract from the reference before adding or extending pages: shell/header, max content width, navigation pattern, card shape, button hierarchy, form controls, typography scale, spacing rhythm, empty states, and forbidden substitutions.
 - Record source assets and brand anchors in requirements before inventing replacements.
 - Do not replace a reference with a generic admin layout unless the requirements explicitly allow that deviation.
+- New pages must reuse the recorded style contract unless the requirement explicitly defines a new surface or allowed deviation.
 - Do not call the UI complete until screenshots or equivalent evidence are attached/listed against the REQ.
 
 ## Behavior Parity Rules
