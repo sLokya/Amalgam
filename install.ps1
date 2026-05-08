@@ -38,6 +38,26 @@ function Get-CodexHome {
     return (Join-Path $homeDir ".codex")
 }
 
+function Invoke-Git {
+    param([Parameter(Mandatory=$true)][string[]]$Arguments)
+
+    & git @Arguments
+    if ($LASTEXITCODE -ne 0) {
+        throw "git $($Arguments -join ' ') failed with exit code $LASTEXITCODE"
+    }
+}
+
+function Get-GitOutput {
+    param([Parameter(Mandatory=$true)][string[]]$Arguments)
+
+    $output = & git @Arguments
+    if ($LASTEXITCODE -ne 0) {
+        throw "git $($Arguments -join ' ') failed with exit code $LASTEXITCODE"
+    }
+
+    return (($output | Out-String).Trim())
+}
+
 function Rebuild-Catalog {
     if ($SkipCatalog) {
         Write-Step "Skipping catalog rebuild"
@@ -60,21 +80,45 @@ function Install-Codex {
     $CodexSkillsDir = Join-Path $ResolvedCodexHome "skills"
     $CodexDest = Join-Path $CodexSkillsDir $SkillName
 
-    Write-Step "Installing to Codex skills: $CodexDest"
+    Write-Step "Syncing Codex skills repo: $CodexDest"
+
+    $RemoteUrl = Get-GitOutput @("-C", $Root, "config", "--get", "remote.origin.url")
+    if ([string]::IsNullOrWhiteSpace($RemoteUrl)) {
+        throw "Cannot determine source git remote. Configure remote.origin.url before installing."
+    }
 
     if ($WhatIf) {
         Write-Host "Would create: $CodexSkillsDir"
-        Write-Host "Would replace: $CodexDest"
+        if (Test-Path -LiteralPath $CodexDest) {
+            Write-Host "Would run: git -C <codex-skill-dir> pull --ff-only"
+        }
+        else {
+            Write-Host "Would run: git clone <source-remote> <codex-skill-dir>"
+        }
         return
     }
 
     New-Item -ItemType Directory -Force -Path $CodexSkillsDir | Out-Null
 
     if (Test-Path -LiteralPath $CodexDest) {
-        Remove-Item -LiteralPath $CodexDest -Recurse -Force
+        $GitDir = Join-Path $CodexDest ".git"
+        if (-not (Test-Path -LiteralPath $GitDir)) {
+            throw "Codex target already exists but is not a git repository: $CodexDest. Move it aside or clone the skill repository there manually."
+        }
+
+        $TargetStatus = Get-GitOutput @("-C", $CodexDest, "status", "--porcelain")
+        if (-not [string]::IsNullOrWhiteSpace($TargetStatus)) {
+            throw "Codex target has local changes. Commit, stash, or clean it before git pull: $CodexDest"
+        }
+
+        Write-Step "Pulling latest committed skill source"
+        Invoke-Git @("-C", $CodexDest, "pull", "--ff-only")
+    }
+    else {
+        Write-Step "Cloning skill source from git remote"
+        Invoke-Git @("clone", $RemoteUrl, $CodexDest)
     }
 
-    Copy-Item -LiteralPath $Root -Destination $CodexDest -Recurse -Force
     Write-Step "Done. Restart Codex App or start a new conversation to refresh skills."
 }
 

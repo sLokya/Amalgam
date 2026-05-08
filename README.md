@@ -12,7 +12,7 @@
 - 内置编码基线：已经吸收 `karpathy-guidelines` 核心行为，不再单独保留该技能。
 - 渐进式开发：通过 `ai-progressive-workflow` 支持 REQ/WP/SLICE、回退标签、变更范围、日志、验证、RCA 和规则演进。
 - 执行确认门：当任务是评估/方案选择/高风险改动/大范围操作时，先向用户确认再执行。
-- 本地维护脚本：通过 `install.ps1` 重建 catalog 并同步到 Codex skills。
+- 本地维护脚本：通过 `install.ps1` 重建源码仓库 catalog，并让 Codex skills 安装副本通过 git clone/pull 同步。
 
 ## 目录结构
 
@@ -165,8 +165,8 @@ cd <agent-context-router>
 脚本会：
 
 1. 运行 `scripts/build_catalog.py`
-2. 重建 `catalog/experts.jsonl` 和 `catalog/coding-skills.jsonl`
-3. 覆盖安装到：
+2. 在当前源码仓库重建 `catalog/experts.jsonl` 和 `catalog/coding-skills.jsonl`
+3. 将 Codex 安装目录作为 git 仓库同步到：
 
 ```text
 <codex-home>\skills\agent-context-router
@@ -185,6 +185,8 @@ cd <agent-context-router>
 ```
 
 安装后需要重启 Codex App 或开启新对话，技能列表和描述才会完全刷新。
+
+注意：安装目录不接收未提交的工作区改动。技能内容只在源码仓库中修改，提交并推送后，再由安装目录执行 `git pull --ff-only` 同步。
 
 ## 更新源码
 
