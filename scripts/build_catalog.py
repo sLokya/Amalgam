@@ -107,11 +107,13 @@ def iter_coding_skills() -> list[dict[str, object]]:
     repo_root = first_existing([SOURCES / "mattpocock-skills", ROOT.parent / "skills"])
     local_root = SOURCES / "local-skills"
     records: list[dict[str, object]] = []
+    seen_names: set[str] = set()
 
     if local_root.exists():
         for path in sorted(local_root.rglob("SKILL.md")):
             fm = read_frontmatter(path)
             name = fm.get("name") or path.parent.name
+            seen_names.add(name)
             records.append(
                 {
                     "name": name,
@@ -133,6 +135,9 @@ def iter_coding_skills() -> list[dict[str, object]]:
             continue
         fm = read_frontmatter(path)
         name = fm.get("name") or path.parent.name
+        if name in seen_names:
+            continue
+        seen_names.add(name)
         records.append(
             {
                 "name": name,

@@ -6,7 +6,7 @@ Use this file when selecting expert roles and engineering workflows.
 
 | Task type | Expert roles to prefer | Engineering workflows to prefer |
 | --- | --- | --- |
-| `clarify` | product manager, software architect, domain expert | grill-with-docs, to-prd |
+| `clarify` | product manager, software architect, domain expert | grill-me, grill-with-docs only when existing docs must be checked, to-prd only when a PRD is requested |
 | `implement` | relevant frontend/backend/mobile/data/AI engineer, software architect if design-heavy | tdd, grill-with-docs |
 | `debug` | relevant engineer, code reviewer, SRE for production issues | diagnose, tdd |
 | `review` | code reviewer, security engineer, relevant domain engineer | zoom-out, diagnose for suspicious behavior |
@@ -20,6 +20,7 @@ Prefer local workflow skills when their description matches the task:
 
 - `context-budget-guard`: default guard for non-trivial routed tasks. Always apply its loading limits before selecting additional experts or workflows; load its full source when context risk is material.
 - `ai-progressive-workflow`: medium-to-large features, cross-platform work, requirement traceability, `requirements.md`, REQ/WP IDs, work packages, business-flow verification, memory sync, or long-running handoff.
+- `grill-me`: default workflow for direct alignment on requirements, scope, plans, design, architecture, tradeoffs, acceptance criteria, or next-step choices. Ask the user directly; do not create or update docs, PRDs, issues, plans, requirements files, or decision records unless the user explicitly asks for those artifacts.
 - Built-in coding baseline: for all development tasks, apply small-change discipline, explicit assumptions, scope control, and verification. This behavior is part of the router and `ai-progressive-workflow`, not a separate selected skill.
 
 ## Selection Heuristics
@@ -32,7 +33,8 @@ Prefer local workflow skills when their description matches the task:
 
 ## Engineering Workflow Heuristics
 
-- Use `grill-with-docs` when requirements are fuzzy or project vocabulary matters.
+- Use `grill-me` when requirements, scope, tradeoffs, design, architecture, acceptance criteria, or next-step choices need user alignment. Direct questions to the user; do not output alignment into docs unless explicitly requested.
+- Use `grill-with-docs` only when alignment must be checked against existing domain docs or project vocabulary.
 - Use `tdd` when changing behavior or fixing a bug with testable outcomes.
 - Use `diagnose` when the root cause is unknown.
 - Use `zoom-out` when understanding unfamiliar code or reviewing broad impact.

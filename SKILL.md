@@ -10,7 +10,7 @@ Use this skill as a lightweight context router. Do not run a multi-agent process
 ## Workflow
 
 1. Classify the task:
-   - `clarify`: vague feature, product, scope, or planning request
+   - `clarify`: vague feature, product, scope, alignment, tradeoff, or planning request
    - `implement`: build or modify code
    - `debug`: runtime error, failing test, flaky behavior, performance issue
    - `review`: code review, PR review, security review, quality audit
@@ -62,6 +62,7 @@ If the user replies with an explicit approval such as "go", "加", "按这个做
 
 - Prefer engineering workflows over personas when the task is code-heavy.
 - Prefer expert roles when domain judgment materially changes the answer.
+- Prefer `grill-me` when the user is aligning requirements, scope, plans, design, architecture, tradeoffs, or acceptance criteria; ask the user directly instead of producing docs unless artifacts are explicitly requested.
 - Skip expert roles when the user's request is already narrow and technical.
 - Skip engineering workflows when the task is pure writing, brainstorming, or non-code domain work.
 - Never copy large prompt files into the answer. Use them as private working context.
